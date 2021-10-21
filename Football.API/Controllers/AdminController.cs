@@ -34,32 +34,32 @@ namespace Football.API.Controllers
             return Ok();
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPatch("teams")]
         public async Task<ActionResult> UpdateTeamsInfo()
         {
-            var result = _updateDatabaseService.GetLeaguesInfoForUpdate();
-            await _mediator.Send(new UpdateTeams.Command { Leagues = result });
+            var result = _updateDatabaseService.GetTeamsInfoForUpdate();
+            await _mediator.Send(new UpdateTeams.Command { Teams = result });
 
             return Ok();
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPatch("players")]
         public async Task<ActionResult> UpdatePlayersInfo()
         {
-            var result = _updateDatabaseService.GetLeaguesInfoForUpdate();
-            await _mediator.Send(new UpdatePlayers.Command { Leagues = result });
+            var result = _updateDatabaseService.GetPlayersInfoForUpdate();
+            await _mediator.Send(new UpdatePlayers.Command { Players = result });
 
             return Ok();
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPatch("matches")]
         public async Task<ActionResult> UpdateMatchesInfo()
         {
-            var result = _updateDatabaseService.GetLeaguesInfoForUpdate();
-            await _mediator.Send(new UpdateMatches.Command { Leagues = result });
+            var result = _updateDatabaseService.GetMatchInfoForUpdate();
+            await _mediator.Send(new UpdateMatches.Command { Matches = result });
 
             return Ok();
         }

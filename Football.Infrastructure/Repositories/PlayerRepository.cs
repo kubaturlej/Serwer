@@ -51,22 +51,19 @@ namespace Football.Infrastructure.Repositories
         public async Task UpdatePlayersInfo(List<Player> players)
         {
             IQueryable<Player> toUpdate = _dbContext.Players;
-            int i = 0;
             foreach (var player in toUpdate)
             {
-                foreach (var p in players)
+                for (int i = 0; i < players.Count; i++)
                 {
-                    if (player.Name == p.Name)
+                    if (player.Name == players[i].Name)
                     {
-                        player.MatchesPlayed = p.MatchesPlayed;
-                        player.MinutesPlayed = p.MinutesPlayed;
-                        player.StartedFromBegin = p.StartedFromBegin;
-                        player.Goals = p.Goals;
-                        player.Assists = p.Assists;
-                        player.RedCards = p.RedCards;
-                        player.YellowCards = p.YellowCards;
-                        i++;
-                        break;
+                        player.MatchesPlayed = players[i].MatchesPlayed;
+                        player.MinutesPlayed = players[i].MinutesPlayed;
+                        player.StartedFromBegin = players[i].StartedFromBegin;
+                        player.Goals = players[i].Goals;
+                        player.Assists = players[i].Assists;
+                        player.RedCards = players[i].RedCards;
+                        player.YellowCards = players[i].YellowCards;
                     }
                 }
             }

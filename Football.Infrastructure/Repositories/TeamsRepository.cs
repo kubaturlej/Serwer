@@ -44,30 +44,28 @@ namespace Football.Infrastructure.Repositories
         public async Task UpdateTeamsInfo(List<Team> teams)
         {
             IQueryable<Team> toUpdate = _dbContext.Teams;
-            int i = 0;
+
             foreach (var team in toUpdate)
             {
-                foreach (var t in teams)
+                for (int i = 0; i < teams.Count; i++)
                 {
-                    if (team.TeamName == t.TeamName)
+                    if (team.TeamName == teams[i].TeamName)
                     {
-                        team.GoalsScoredPerMatch = t.GoalsScoredPerMatch;
-                        team.GoalsConcededPerMacth = t.GoalsConcededPerMacth;
-                        team.AvgPossession = t.AvgPossession;
-                        team.Standing = t.Standing;
-                        team.Matches = t.Matches;
-                        team.Points = t.Points;
-                        team.Wins = team.Wins;
-                        team.Draws = team.Draws;
-                        team.Losses = team.Losses;
-                        team.GoalBalance = team.GoalBalance;
-                        team.GoalScored = team.GoalScored;
-                        team.GoalConceded = team.GoalConceded;
-                        team.MacthesHistory = team.MacthesHistory;
-                        team.CleanSheets = team.CleanSheets;
-                        team.AvgGoalsPerMacth = team.AvgGoalsPerMacth;
-                        i++;
-                        break;
+                        team.GoalsScoredPerMatch = teams[i].GoalsScoredPerMatch;
+                        team.GoalsConcededPerMacth = teams[i].GoalsConcededPerMacth;
+                        team.AvgPossession = teams[i].AvgPossession;
+                        team.Standing = teams[i].Standing;
+                        team.Matches = teams[i].Matches;
+                        team.Points = teams[i].Points;
+                        team.Wins = teams[i].Wins;
+                        team.Draws = teams[i].Draws;
+                        team.Losses = teams[i].Losses;
+                        team.GoalBalance = teams[i].GoalBalance;
+                        team.GoalScored = teams[i].GoalScored;
+                        team.GoalConceded = teams[i].GoalConceded;
+                        team.MacthesHistory = teams[i].MacthesHistory;
+                        team.CleanSheets = teams[i].CleanSheets;
+                        team.AvgGoalsPerMacth = teams[i].AvgGoalsPerMacth;
                     }
                 }
             }

@@ -9,7 +9,10 @@ namespace Football.API.Services
 {
     public interface IUpdateDatabaseService
     {
-        List<DataScraper.Models.League> GetLeaguesInfoForUpdate();
+        public List<DataScraper.Models.League> GetLeaguesInfoForUpdate();
+        public List<DataScraper.Models.Match> GetMatchInfoForUpdate();
+        public List<DataScraper.Models.Table> GetTeamsInfoForUpdate();
+        public List<DataScraper.Models.Player> GetPlayersInfoForUpdate();
     }
 
     public class UpdateDatabaseService : IUpdateDatabaseService
@@ -33,16 +36,21 @@ namespace Football.API.Services
 
         public List<DataScraper.Models.Match> GetMatchInfoForUpdate()
         {
-            var leaguesList = Common.leagues;
-            var countries = Common.countries;
+            var schedules = Common.schedules;
 
             var result = new List<DataScraper.Models.Match>();
 
-            for (int i = 0; i < leaguesList.Count; i++)
+            for (int i = 0; i < schedules.Count; i++)
             {
-                var ls = new LeagueScraper(leaguesList[i], countries[i]);
-                var league = ls.GetLeague();
-                result.Add(league);
+                var ss = new ScheduleScraper(schedules[i]);
+                var schedule = ss.GetSchedule();
+                foreach (var rounds in schedule)
+                {
+                    foreach (var match in rounds.Matches)
+                    {
+                        result.Add(match);
+                    }
+                }
             }
 
             return result;
@@ -53,29 +61,40 @@ namespace Football.API.Services
             var leaguesList = Common.leagues;
             var countries = Common.countries;
 
-            var teamsInfo = new List<DataScraper.Models.Table>();
+            var result = new List<DataScraper.Models.Table>();
 
             for (int i = 0; i < leaguesList.Count; i++)
             {
                 var tis = new TeamInfoScraper(leaguesList[i], countries[i]);
-                teamsInfo = tis.GetTeams().ToList();
+                var teams = tis.GetTeams();
+                foreach (var team in teams)
+                {
+                    result.Add(team);
+                }
             }
 
-            return teamsInfo;
+            return result;
         }
 
         public List<DataScraper.Models.Player> GetPlayersInfoForUpdate()
         {
             var leaguesList = Common.leagues;
-            var countries = Common.countries;
+            var players = Common.players;
 
             var result = new List<DataScraper.Models.Player>();
 
             for (int i = 0; i < leaguesList.Count; i++)
             {
-                var ls = new LeagueScraper(leaguesList[i], countries[i]);
-                var league = ls.GetLeague();
-                result.Add(league);
+                var ps = new PlayerScraper(players[i]);
+                var playersList = ps.GetPlayers();
+
+                foreach (var teamPlayer in playersList)
+                {
+                    foreach (var player in teamPlayer.Players)
+                    {
+                        result.Add(player);
+                    }
+                }
             }
 
             return result;

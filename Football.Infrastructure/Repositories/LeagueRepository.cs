@@ -70,17 +70,14 @@ namespace Football.Infrastructure.Repositories
         public async Task UpdateLegaueInfo(List<League> leagues)
         {
            IQueryable<League> toUpdate = _dbContext.Leagues;
-           int i = 0;
            foreach (var league in toUpdate)
            {
-                foreach (var l in leagues)
+                for (int i = 0; i < leagues.Count; i++)
                 {
-                    if (league.LeagueName == l.LeagueName)
+                    if (league.LeagueName == leagues[i].LeagueName)
                     {
                         league.LeagueProgress = leagues[i].LeagueProgress;
                         league.MatchesCompleted = leagues[i].MatchesCompleted;
-                        i++;
-                        break;
                     }
                 }
            }
@@ -93,19 +90,14 @@ namespace Football.Infrastructure.Repositories
         public async Task UpdateMatchesInfo(List<Match> matches)
         {
             IQueryable<Match> toUpdate = _dbContext.Matches;
-            int i = 0;
+
             foreach (var match in toUpdate)
             {
-                if (DateTime.Parse(match.Date) > DateTime.Now)
+                for (int i = 0; i < matches.Count; i++)
                 {
-                    foreach (var m in matches)
+                    if (match.Date == matches[i].Date && match.Time == matches[i].Time && (match.FirstTeam == matches[i].FirstTeam || match.SecondTeam == matches[i].SecondTeam))
                     {
-                        if (match.FirstTeam == m.FirstTeam && match.SecondTeam == m.SecondTeam)
-                            {
-                            match.Score = matches[i].Score;
-                                i++;
-                                break;
-                            }
+                        match.Score = matches[i].Score;
                     }
                 }
             }
