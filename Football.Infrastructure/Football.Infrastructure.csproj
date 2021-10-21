@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="5.0.11" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Football.Application\Football.Application.csproj" />
     <ProjectReference Include="..\Football.Domain\Football.Domain.csproj" />
     <ProjectReference Include="..\Football.Persistence\Football.Persistence.csproj" />

@@ -1,4 +1,5 @@
 ﻿using Football.Application.Features.Leagues.Queries.GetLeagues;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ namespace Football.API.Controllers
     public class LeaguesController : BaseApiController
     {
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<LeagueDto>>> GetLeagues()
         {
             var result = await Mediator.Send(new GetLeagues.Query());
