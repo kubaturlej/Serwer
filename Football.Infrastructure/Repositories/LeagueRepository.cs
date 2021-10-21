@@ -1,4 +1,5 @@
-﻿using Football.Application.Contracts.Persistence;
+﻿using AutoMapper;
+using Football.Application.Contracts.Persistence;
 using Football.Domain.Entities;
 using Football.Infrastructure.Exception;
 using Football.Persistence;
@@ -14,10 +15,12 @@ namespace Football.Infrastructure.Repositories
     public class LeagueRepository : ILeagueRepository
     {
         private readonly FootballDbContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public LeagueRepository(FootballDbContext dbContext)
+        public LeagueRepository(FootballDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         public async Task<IReadOnlyList<League>> GetLeagues()
@@ -63,5 +66,53 @@ namespace Football.Infrastructure.Repositories
 
             return matches;
         }
+
+        public async Task UpdateLegaueInfo(List<League> leagues)
+        {
+           IQueryable<League> toUpdate = _dbContext.Leagues;
+           int i = 0;
+           foreach (var league in toUpdate)
+           {
+                foreach (var l in leagues)
+                {
+                    if (league.LeagueName == l.LeagueName)
+                    {
+                        league.LeagueProgress = leagues[i].LeagueProgress;
+                        league.MatchesCompleted = leagues[i].MatchesCompleted;
+                        i++;
+                        break;
+                    }
+                }
+           }
+
+            var result = await _dbContext.SaveChangesAsync();
+               
+            if (result != leagues.Count) throw new NotFoundException("Error.");
+        }
+
+        public async Task UpdateMatchesInfo(List<Match> matches)
+        {
+            IQueryable<Match> toUpdate = _dbContext.Matches;
+            int i = 0;
+            foreach (var match in toUpdate)
+            {
+                if (DateTime.Parse(match.Date) > DateTime.Now)
+                {
+                    foreach (var m in matches)
+                    {
+                        if (match.FirstTeam == m.FirstTeam && match.SecondTeam == m.SecondTeam)
+                            {
+                            match.Score = matches[i].Score;
+                                i++;
+                                break;
+                            }
+                    }
+                }
+            }
+
+            var result = await _dbContext.SaveChangesAsync();
+
+            if (result != matches.Count) throw new NotFoundException("Error.");
+        }    
     }
 }

@@ -14,10 +14,10 @@ namespace Football.Persistence
         {
             if (!dbContext.Leagues.Any() && !dbContext.Teams.Any() && !dbContext.Players.Any())
             {
-                var leaguesList = Common.leagues.ToList();
-                var countries = Common.countries.ToList();
-                var schedules = Common.schedules.ToList();
-                var players = Common.players.ToList();
+                var leaguesList = Common.leagues;
+                var countries = Common.countries;
+                var schedules = Common.schedules;
+                var players = Common.players;
 
                 var leagues = new List<League>();
 

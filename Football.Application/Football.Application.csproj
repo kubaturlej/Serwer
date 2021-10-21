@@ -14,9 +14,4 @@
     <ProjectReference Include="..\Football.Persistence\Football.Persistence.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\Players\" />
-    <Folder Include="Features\Teams\" />
-  </ItemGroup>
-
 </Project>

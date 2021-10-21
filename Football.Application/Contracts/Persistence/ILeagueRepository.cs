@@ -12,6 +12,8 @@ namespace Football.Application.Contracts.Persistence
         public Task<IReadOnlyList<League>> GetLeagues();
         public Task<League> GetLeagueById(int id);
         public Task<IReadOnlyList<Round>> GetScheduleByLeague(int id);
-        public  Task<IReadOnlyList<Match>> GetScheduleByDate(int id, string date);
+        public Task<IReadOnlyList<Match>> GetScheduleByDate(int id, string date);
+        public Task UpdateLegaueInfo(List<League> leagues);
+        public Task UpdateMatchesInfo(List<Match> matches);
     }
 }

@@ -47,5 +47,33 @@ namespace Football.Infrastructure.Repositories
 
             return player;
         }
+
+        public async Task UpdatePlayersInfo(List<Player> players)
+        {
+            IQueryable<Player> toUpdate = _dbContext.Players;
+            int i = 0;
+            foreach (var player in toUpdate)
+            {
+                foreach (var p in players)
+                {
+                    if (player.Name == p.Name)
+                    {
+                        player.MatchesPlayed = p.MatchesPlayed;
+                        player.MinutesPlayed = p.MinutesPlayed;
+                        player.StartedFromBegin = p.StartedFromBegin;
+                        player.Goals = p.Goals;
+                        player.Assists = p.Assists;
+                        player.RedCards = p.RedCards;
+                        player.YellowCards = p.YellowCards;
+                        i++;
+                        break;
+                    }
+                }
+            }
+
+            var result = await _dbContext.SaveChangesAsync();
+
+            if (result != players.Count) throw new NotFoundException("Error.");
+        }
     }
 }

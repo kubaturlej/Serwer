@@ -55,6 +55,7 @@ namespace Football.API
             services.AddScoped<ILeagueRepository, LeagueRepository>();
             services.AddScoped<ITeamsRepository, TeamsRepository>();
             services.AddScoped<IPlayerRepository, PlayerRepository>();
+            services.AddScoped<IUpdateDatabaseService, UpdateDatabaseService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ErrorHandleMiddleware>();
             services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();

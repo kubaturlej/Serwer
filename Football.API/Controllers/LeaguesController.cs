@@ -9,7 +9,6 @@ namespace Football.API.Controllers
     public class LeaguesController : BaseApiController
     {
         [HttpGet]
-        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<LeagueDto>>> GetLeagues()
         {
             var result = await Mediator.Send(new GetLeagues.Query());
