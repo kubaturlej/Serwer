@@ -2,6 +2,7 @@
 using DataScraper;
 using DataScraper.Scrapers;
 using Football.Domain.Entities;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace Football.Persistence
 {
     public class FootballSeeder
     {
-        public static async Task Seed(FootballDbContext dbContext, IMapper mapper)
+        public static async Task Seed(FootballDbContext dbContext, IMapper mapper, ILogger logger)
         {
             if (!dbContext.Leagues.Any() && !dbContext.Teams.Any() && !dbContext.Players.Any())
             {
@@ -23,11 +24,11 @@ namespace Football.Persistence
 
                 for (int i = 0; i < leaguesList.Count; i++)
                 {
-                    var tis = new TeamInfoScraper(leaguesList[i], countries[i]);
+                    var tis = new TeamInfoScraper(leaguesList[i], countries[i], logger);
                     var teamsInfo = tis.GetTeams();
                     var mappedTeam = mapper.Map<IEnumerable<Team>>(teamsInfo);
 
-                    var ps = new PlayerScraper(players[i]);
+                    var ps = new PlayerScraper(players[i], logger);
                     var playersList = ps.GetPlayers();
 
                     int counter = 0;
@@ -39,11 +40,11 @@ namespace Football.Persistence
                         counter++;
                     }
 
-                    var ls = new LeagueScraper(leaguesList[i], countries[i]);
+                    var ls = new LeagueScraper(leaguesList[i], countries[i], logger);
                     var league = ls.GetLeague();
                     var mappedLeague = mapper.Map<League>(league);
 
-                    var ss = new ScheduleScraper(schedules[i]);
+                    var ss = new ScheduleScraper(schedules[i], logger);
                     var schedule = ss.GetSchedule();
                     var mappedShedule = mapper.Map<IEnumerable<Round>>(schedule);
 

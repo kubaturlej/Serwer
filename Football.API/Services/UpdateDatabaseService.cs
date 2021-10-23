@@ -1,5 +1,6 @@
 ﻿using DataScraper;
 using DataScraper.Scrapers;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,12 @@ namespace Football.API.Services
 
     public class UpdateDatabaseService : IUpdateDatabaseService
     {
+        private readonly ILogger<UpdateDatabaseService> _logger;
+
+        public UpdateDatabaseService(ILogger<UpdateDatabaseService> logger)
+        {
+            _logger = logger;
+        }
         public List<DataScraper.Models.League> GetLeaguesInfoForUpdate()
         {
             var leaguesList = Common.leagues;
@@ -26,7 +33,7 @@ namespace Football.API.Services
 
             for (int i = 0; i < leaguesList.Count; i++)
             {
-                var ls = new LeagueScraper(leaguesList[i], countries[i]);
+                var ls = new LeagueScraper(leaguesList[i], countries[i], _logger);
                 var league = ls.GetLeague();
                 result.Add(league);
             }
@@ -42,7 +49,7 @@ namespace Football.API.Services
 
             for (int i = 0; i < schedules.Count; i++)
             {
-                var ss = new ScheduleScraper(schedules[i]);
+                var ss = new ScheduleScraper(schedules[i], _logger);
                 var schedule = ss.GetSchedule();
                 foreach (var rounds in schedule)
                 {
@@ -65,7 +72,7 @@ namespace Football.API.Services
 
             for (int i = 0; i < leaguesList.Count; i++)
             {
-                var tis = new TeamInfoScraper(leaguesList[i], countries[i]);
+                var tis = new TeamInfoScraper(leaguesList[i], countries[i], _logger);
                 var teams = tis.GetTeams();
                 foreach (var team in teams)
                 {
@@ -85,7 +92,7 @@ namespace Football.API.Services
 
             for (int i = 0; i < leaguesList.Count; i++)
             {
-                var ps = new PlayerScraper(players[i]);
+                var ps = new PlayerScraper(players[i], _logger);
                 var playersList = ps.GetPlayers();
 
                 foreach (var teamPlayer in playersList)

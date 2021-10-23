@@ -1,4 +1,5 @@
 ﻿using Football.Application.Features.Leagues.Queries.GetPlayers;
+using Football.Application.Features.Players;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -26,6 +27,16 @@ namespace Football.API.Controllers
         {
             var result = await Mediator.Send(new GetPlayer.Query() { Id = id });
             return Ok(result);
+        }
+
+        //[Authorize(Roles = "Admin")]
+        [HttpPatch("players")]
+        public async Task<ActionResult> UpdatePlayersInfo()
+        {
+            var result = UpdateService.GetPlayersInfoForUpdate();
+            await Mediator.Send(new UpdatePlayers.Command { Players = result });
+
+            return Ok();
         }
     }
 }

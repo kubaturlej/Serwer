@@ -1,5 +1,6 @@
 ﻿using DataScraper.Models;
 using HtmlAgilityPack;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,16 +12,18 @@ namespace DataScraper.Scrapers
     public class PlayerScraper
     {
         private readonly string _league;
+        private readonly ILogger _logger;
         private const string BaseUrl = "https://fbref.com/";
 
-        public PlayerScraper(string league)
+        public PlayerScraper(string league, ILogger logger)
         {
             _league = league;
+            _logger = logger;
         }
 
         public IEnumerable<TeamPlayers> GetPlayers()
         {
-            Console.WriteLine("Players scraper started ...");
+            _logger.LogInformation($"League scraper started for {_league} ...");
             var web = new HtmlWeb();
 
             var document = web.Load(BaseUrl + _league);

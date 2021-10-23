@@ -1,5 +1,6 @@
 ﻿using DataScraper.Models;
 using HtmlAgilityPack;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 
@@ -8,16 +9,18 @@ namespace DataScraper.Scrapers
     public class ScheduleScraper
     {
         private readonly string _league;
+        private readonly ILogger _logger;
         private const string BaseUrl = "https://www.worldfootball.net/";
 
-        public ScheduleScraper(string league)
+        public ScheduleScraper(string league, ILogger logger)
         {
             _league = league;
+            _logger = logger;
         }
 
         public IEnumerable<Round> GetSchedule()
         {
-            Console.WriteLine("Schedule scraper started ...");
+            _logger.LogInformation($"League scraper started for {_league} ...");
             var web = new HtmlWeb();
             var document = web.Load(BaseUrl + _league);
 

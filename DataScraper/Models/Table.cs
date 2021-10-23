@@ -13,7 +13,7 @@ namespace DataScraper.Models
         public string GoalsConcededPerMacth { get; set; }
         public string AvgPossession { get; set; }
         public string TeamNationality { get; set; }
-        public string Standing { get; set; }
+        public int Standing { get; set; }
         public string Matches { get; set; }
         public string Points { get; set; }
         public string Wins { get; set; }

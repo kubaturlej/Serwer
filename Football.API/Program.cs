@@ -26,7 +26,7 @@ namespace Football.API
                 var mapper = services.GetRequiredService<IMapper>();
                 context.Database.Migrate();
                 logger.LogInformation("Start seeding football database...");
-                await FootballSeeder.Seed(context, mapper);
+                await FootballSeeder.Seed(context, mapper,logger);
                 logger.LogInformation("Database seeded successfuly.");
             }
             catch (Exception ex)
