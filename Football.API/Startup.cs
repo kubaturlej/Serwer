@@ -38,7 +38,7 @@ namespace Football.API
             app.UseMiddleware<ErrorHandleMiddleware>();
             app.UseAuthentication();
 
-            app.UseHttpsRedirection();
+ //           app.UseHttpsRedirection();
 
             app.UseRouting();
 

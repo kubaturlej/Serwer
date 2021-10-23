@@ -45,6 +45,7 @@ namespace Football.API.Extensions
             services.AddScoped<IUpdateDatabaseService, UpdateDatabaseService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ErrorHandleMiddleware>();
+
             services.AddCors(options =>
             {
                 options.AddPolicy("FrontEndClient", builer =>

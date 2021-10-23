@@ -31,5 +31,12 @@ namespace Football.API.Controllers
             string token = _userService.LoginUser(dto);
             return Ok(token);
         }
+
+        [HttpPost("{id}/delete")]
+        public ActionResult DeleteUser(int id)
+        {
+            _userService.DeleteUser(id);
+            return Ok();
+        }
     }
 }

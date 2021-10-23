@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Football.API.Controllers
 {
     [ApiController]
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     public class BaseApiController : ControllerBase
     {

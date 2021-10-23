@@ -18,8 +18,10 @@ namespace Football.API.Services
 {
     public interface IUserService
     {
-        void RegisterUser(RegisterDto dto);
-        string LoginUser (LoginDto dto);
+        public void RegisterUser(RegisterDto dto);
+        public string LoginUser (LoginDto dto);
+        public void DeleteUser(int id);
+        
     }
     public class UserService : IUserService
     {
@@ -33,6 +35,21 @@ namespace Football.API.Services
             _passwordHasher = passwordHasher;
             _config = config; 
         }
+
+        public void DeleteUser(int id)
+        {
+            var user = _dbContext.Users
+             .Find(id);
+
+            if (user is null)
+            {
+                throw new BadRequestException("Something went wrong ...");
+            }
+
+            _dbContext.Remove(user);
+            _dbContext.SaveChanges();
+        }
+
         public string LoginUser(LoginDto dto)
         {
             var user = _dbContext.Users
