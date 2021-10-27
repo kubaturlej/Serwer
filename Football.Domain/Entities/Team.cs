@@ -26,6 +26,7 @@ namespace Football.Domain.Entities
         public string MacthesHistory { get; set; }
         public string CleanSheets { get; set; }
         public string AvgGoalsPerMacth { get; set; }
+        public string Logo { get; set; }
         public virtual List<Player> Players { get; set; }
         public virtual League League { get; set; }
     }

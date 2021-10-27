@@ -12,6 +12,7 @@ namespace DataScraper.Models
         public string TotalMatches { get; set; }
         public string MatchesCompleted { get; set; }
         public string LeagueProgress { get; set; }
+        public string Logo { get; set; }
 
     }
 }

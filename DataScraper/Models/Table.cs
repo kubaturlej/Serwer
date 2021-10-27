@@ -25,5 +25,6 @@ namespace DataScraper.Models
         public ICollection<string> MacthesHistory { get; set; } = new List<string>();
         public string CleanSheets { get; set; }
         public string AvgGoalsPerMacth{ get; set; }
+        public string Logo{ get; set; }
     }
 }

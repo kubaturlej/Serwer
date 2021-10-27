@@ -37,7 +37,6 @@ namespace DataScraper.Scrapers
             {
                 var tds = tr.QuerySelectorAll("td");
 
-
                 var teamUrl = tds[2].QuerySelector("a").Attributes["href"].Value.TrimStart('/');
 
                 var innerDocument = web.Load(BaseUrl + teamUrl);
@@ -59,6 +58,7 @@ namespace DataScraper.Scrapers
                 }
 
                 var standing = tds[0].InnerText.Trim();
+                var logo = tds[1].QuerySelector("img").Attributes["src"].Value;
                 var teamName = tds[2].InnerText.Trim();
                 var matches = tds[3].InnerText.Trim();
                 var wins = tds[4].InnerText.Trim();
@@ -89,7 +89,8 @@ namespace DataScraper.Scrapers
                     AvgGoalsPerMacth = avgGoals,
                     GoalsConcededPerMacth = goalsConcededPerMacth,
                     GoalsScoredPerMatch = goalsScoredPerMatch,
-                    AvgPossession = avgPossession
+                    AvgPossession = avgPossession,
+                    Logo = logo
                 };
             }
         }

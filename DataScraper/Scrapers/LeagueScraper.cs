@@ -29,6 +29,8 @@ namespace DataScraper.Scrapers
             var web = new HtmlWeb();
             var document = web.Load(BaseUrl + _country + "/" + _league);
 
+            var logo = document.QuerySelector("img.teamCrest").Attributes["src"].Value;
+
             var leagueName = document.QuerySelector(".teamName");
 
             var matchNumber = document.QuerySelectorAll(".w65 ")[3];
@@ -46,7 +48,8 @@ namespace DataScraper.Scrapers
                 LeagueName = leagueName.InnerText.Replace("Stats", "").Trim(),
                 LeagueProgress = $"{leagueProgress}%",
                 TotalMatches = totalMatches,
-                MatchesCompleted = matchesCompleted
+                MatchesCompleted = matchesCompleted,
+                Logo = logo
             };
         }
     }
