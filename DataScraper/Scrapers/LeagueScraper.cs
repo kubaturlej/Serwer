@@ -49,7 +49,8 @@ namespace DataScraper.Scrapers
                 LeagueProgress = $"{leagueProgress}%",
                 TotalMatches = totalMatches,
                 MatchesCompleted = matchesCompleted,
-                Logo = logo
+                Logo = logo,
+                Nationality = _country
             };
         }
     }

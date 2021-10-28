@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Football.Application.Contracts.Persistence;
 using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,7 +28,15 @@ namespace Football.Application.Features.Leagues.Queries.GetLeagues
             {
                 var leagues = await _repository.GetLeagues();
 
-                return _mapper.Map<List<LeagueDto>>(leagues);
+                var listWithMatches =  _mapper.Map<List<LeagueDto>>(leagues);
+                foreach (var league in listWithMatches)
+                {
+                    var matches = await _repository.GetScheduleByDate(league.Id, DateTime.Now.ToString("dd'/'MM'/'yyyy"));
+                    league.Matches = _mapper.Map<List<MatchDto>>(matches);
+                }
+
+                return listWithMatches;
+
             }
         }
     }

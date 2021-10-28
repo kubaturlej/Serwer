@@ -14,5 +14,9 @@ namespace Football.Application.Features.Leagues.Queries.GetLeagues
         public string TotalMatches { get; set; }
         public string MatchesCompleted { get; set; }
         public string LeagueProgress { get; set; }
+        public string Logo { get; set; }
+        public string Nationality { get; set; }
+        public ICollection<MatchDto> Matches { get; set; }
+
     }
 }

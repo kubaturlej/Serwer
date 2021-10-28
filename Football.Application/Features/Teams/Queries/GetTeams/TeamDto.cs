@@ -26,5 +26,6 @@ namespace Football.Application.Features.Leagues.Queries.GetTeams
         public string MacthesHistory { get; set; }
         public string CleanSheets { get; set; }
         public string AvgGoalsPerMacth { get; set; }
+        public string Logo { get; set; }
     }
 }

@@ -14,6 +14,7 @@ namespace Football.Domain.Entities
         public string MatchesCompleted { get; set; }
         public string LeagueProgress { get; set; }
         public string Logo { get; set; }
+        public string Nationality { get; set; }
         public virtual List<Team> Teams { get; set; }
         public virtual List<Round> Rounds { get; set; }
     }

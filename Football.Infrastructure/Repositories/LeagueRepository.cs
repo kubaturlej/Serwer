@@ -62,7 +62,7 @@ namespace Football.Infrastructure.Repositories
                 .Where(m => m.Date == date)
                 .ToListAsync();
 
-            if (matches.Count == 0) throw new NotFoundException("Matches not found.");
+            if (matches.Count == 0) return new List<Match>();
 
             return matches;
         }
