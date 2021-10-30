@@ -1,4 +1,5 @@
-﻿using Football.Domain.Entities;
+﻿using Football.Application.Features.Leagues.Queries.GetTeams;
+using Football.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

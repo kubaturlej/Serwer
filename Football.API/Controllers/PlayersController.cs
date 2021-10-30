@@ -1,5 +1,6 @@
 ﻿using Football.Application.Features.Leagues.Queries.GetPlayers;
 using Football.Application.Features.Players;
+using Football.Application.Features.Players.Queries.GetPlayers;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,6 +13,13 @@ namespace Football.API.Controllers
         public async Task<ActionResult<IEnumerable<PlayerDto>>> GetPlayersByLeagueId(int leagueId)
         {
             var result = await Mediator.Send(new GetPlayersByLeagueName.Query() { Id = leagueId });
+            return Ok(result);
+        }
+
+        [HttpGet("{leagueId}/scorers")]
+        public async Task<ActionResult<IEnumerable<PlayerDto>>> GetBestScorersForLeague(int leagueId)
+        {
+            var result = await Mediator.Send(new GetBestScorersForLeague.Query { Id = leagueId });
             return Ok(result);
         }
 

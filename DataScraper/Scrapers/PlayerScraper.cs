@@ -57,7 +57,7 @@ namespace DataScraper.Scrapers
                         Name = th.InnerText,
                         Age = innerTds[2].InnerText,
                         Assists = innerTds[8].InnerText,
-                        Goals = innerTds[7].InnerText,
+                        Goals = int.Parse(innerTds[7].InnerText),
                         MatchesPlayed = innerTds[3].InnerText,
                         MinutesPlayed = innerTds[5].InnerText,
                         Nationality = nationality,

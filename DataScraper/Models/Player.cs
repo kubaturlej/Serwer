@@ -15,7 +15,7 @@ namespace DataScraper.Models
         public string MatchesPlayed { get; set; }
         public string MinutesPlayed { get; set; }
         public string StartedFromBegin { get; set; }
-        public string Goals { get; set; }
+        public int Goals { get; set; }
         public string Assists { get; set; }
         public string RedCards { get; set; }
         public string YellowCards { get; set; }

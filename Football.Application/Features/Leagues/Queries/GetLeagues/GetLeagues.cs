@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Football.Application.Contracts.Persistence;
+using Football.Application.Features.Leagues.Queries.GetTeams;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -16,22 +17,22 @@ namespace Football.Application.Features.Leagues.Queries.GetLeagues
 
         public class Handler : IRequestHandler<Query, List<LeagueDto>>
         {
-            private readonly ILeagueRepository _repository;
+            private readonly ILeagueRepository _leagueRepository;
             private readonly IMapper _mapper;
 
-            public Handler(ILeagueRepository repository, IMapper mapper)
+            public Handler(ILeagueRepository leagueRepository, IMapper mapper)
             {
-                _repository = repository;
+                _leagueRepository = leagueRepository;
                 _mapper = mapper;
             }
             public async Task<List<LeagueDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var leagues = await _repository.GetLeagues();
+                var leagues = await _leagueRepository.GetLeagues();
 
                 var listWithMatches =  _mapper.Map<List<LeagueDto>>(leagues);
                 foreach (var league in listWithMatches)
                 {
-                    var matches = await _repository.GetScheduleByDate(league.Id, DateTime.Now.ToString("dd'/'MM'/'yyyy"));
+                    var matches = await _leagueRepository.GetScheduleByDate(league.Id, DateTime.Now.ToString("dd'/'MM'/'yyyy"));
                     league.Matches = _mapper.Map<List<MatchDto>>(matches);
                 }
 

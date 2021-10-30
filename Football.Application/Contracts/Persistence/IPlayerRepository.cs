@@ -13,5 +13,7 @@ namespace Football.Application.Contracts.Persistence
         public Task<IReadOnlyList<Player>> GetPlayersByTeamName(int id);
         public Task<Player> GetPlayer(int id);
         public Task UpdatePlayersInfo(List<Player> players);
+        public Task<IReadOnlyList<Player>> GetBestScorersForLeague(int id);
+
     }
 }

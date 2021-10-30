@@ -28,6 +28,19 @@ namespace Football.Infrastructure.Repositories
 
             return players;
         }
+
+        public async Task<IReadOnlyList<Player>> GetBestScorersForLeague(int id)
+        {
+            var players = await _dbContext.Players
+                .Where(p => p.Team.League.Id == id)
+                .OrderByDescending(p => p.Goals)
+                .Take(15)
+                .ToListAsync();
+
+            if (players.Count == 0) throw new NotFoundException("Players not found.");
+
+            return players;
+        }
         public async Task<IReadOnlyList<Player>> GetPlayersByTeamName(int id)
         {
             var players =  await _dbContext.Players
