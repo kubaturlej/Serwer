@@ -25,7 +25,7 @@ namespace DataScraper.Scrapers
 
         public IEnumerable<Table> GetTeams()
         {
-            _logger.LogInformation($"League scraper started for {_league} ...");
+            _logger.LogInformation($"Team scraper started for {_league} ...");
             var web = new HtmlWeb();
             var document = web.Load(BaseUrl + _country + "/" + _league);
 

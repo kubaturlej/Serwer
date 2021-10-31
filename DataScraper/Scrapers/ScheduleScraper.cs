@@ -20,7 +20,7 @@ namespace DataScraper.Scrapers
 
         public IEnumerable<Round> GetSchedule()
         {
-            _logger.LogInformation($"League scraper started for {_league} ...");
+            _logger.LogInformation($"Schedule scraper started for {_league} ...");
             var web = new HtmlWeb();
             var document = web.Load(BaseUrl + _league);
 

@@ -83,7 +83,7 @@ namespace Football.Infrastructure.Repositories
 
             var result = await _dbContext.SaveChangesAsync();
 
-            if (result != players.Count) throw new NotFoundException("Error.");
+            //if (result != players.Count) throw new NotFoundException("Error.");
         }
     }
 }

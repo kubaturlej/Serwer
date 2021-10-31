@@ -28,8 +28,8 @@ namespace Football.API.Controllers
         [HttpPost("login")]
         public ActionResult Login(LoginDto dto)
         {
-            string token = _userService.LoginUser(dto);
-            return Ok(token);
+            var user = _userService.LoginUser(dto);
+            return Ok(user);
         }
 
         [HttpPost("{id}/delete")]

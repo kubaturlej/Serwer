@@ -1,4 +1,5 @@
-﻿using Football.Application.Features.Leagues.Queries.GetTeams;
+﻿using Football.Application.Features.Leagues.Queries.GetPlayers;
+using Football.Application.Features.Leagues.Queries.GetTeams;
 using Football.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace Football.Application.Features.Leagues.Queries.GetLeagues
         public string Logo { get; set; }
         public string Nationality { get; set; }
         public ICollection<MatchDto> Matches { get; set; }
+        public ICollection<PlayerDto> Scorers { get; set; }
 
     }
 }

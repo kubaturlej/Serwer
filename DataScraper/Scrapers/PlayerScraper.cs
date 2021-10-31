@@ -23,7 +23,7 @@ namespace DataScraper.Scrapers
 
         public IEnumerable<TeamPlayers> GetPlayers()
         {
-            _logger.LogInformation($"League scraper started for {_league} ...");
+            _logger.LogInformation($"Player scraper started for {_league} ...");
             var web = new HtmlWeb();
 
             var document = web.Load(BaseUrl + _league);
@@ -49,15 +49,18 @@ namespace DataScraper.Scrapers
                 {
                     var th = innerTr.QuerySelector("th");
                     var innerTds = innerTr.QuerySelectorAll("td");
-
                     var nationality = innerTds[0].InnerText.Split(' ')[1];
+
+                    int goalsAsNumber = 0;
+                    int.TryParse(innerTds[7].InnerText, out goalsAsNumber);
 
                     playersList.Add(new Player
                     {
+              
                         Name = th.InnerText,
                         Age = innerTds[2].InnerText,
                         Assists = innerTds[8].InnerText,
-                        Goals = int.Parse(innerTds[7].InnerText),
+                        Goals = goalsAsNumber,
                         MatchesPlayed = innerTds[3].InnerText,
                         MinutesPlayed = innerTds[5].InnerText,
                         Nationality = nationality,

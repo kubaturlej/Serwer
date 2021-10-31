@@ -22,6 +22,7 @@ namespace Football.API.Middleware
             {
                 await next.Invoke(context);
             }
+
             catch (NotFoundException ex)
             {
                 context.Response.StatusCode = 404;
@@ -32,6 +33,14 @@ namespace Football.API.Middleware
                 context.Response.StatusCode = 400;
                 await context.Response.WriteAsync(ex.Message);
             }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+
+                context.Response.StatusCode = 500;
+                await context.Response.WriteAsync("Something went wrong");
+            }
+
         }
     }
 }

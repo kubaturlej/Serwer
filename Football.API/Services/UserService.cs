@@ -19,7 +19,7 @@ namespace Football.API.Services
     public interface IUserService
     {
         public void RegisterUser(RegisterDto dto);
-        public string LoginUser (LoginDto dto);
+        public UserDto LoginUser(LoginDto dto);
         public void DeleteUser(int id);
         
     }
@@ -50,7 +50,7 @@ namespace Football.API.Services
             _dbContext.SaveChanges();
         }
 
-        public string LoginUser(LoginDto dto)
+        public UserDto LoginUser(LoginDto dto)
         {
             var user = _dbContext.Users
                 .Include(u => u.Role)
@@ -88,7 +88,13 @@ namespace Football.API.Services
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return tokenHandler.WriteToken(token);
+            return new UserDto
+            {
+                Email = user.Email,
+                Token = tokenHandler.WriteToken(token),
+                NickName = user.NickName
+            };
+               
         }
 
         public void RegisterUser(RegisterDto dto)

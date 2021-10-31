@@ -84,7 +84,7 @@ namespace Football.Infrastructure.Repositories
 
             var result = await _dbContext.SaveChangesAsync();
                
-            if (result != leagues.Count) throw new NotFoundException("Error.");
+            //if (result != leagues.Count) throw new NotFoundException("Error.");
         }
 
         public async Task UpdateMatchesInfo(List<Match> matches)
@@ -104,7 +104,7 @@ namespace Football.Infrastructure.Repositories
 
             var result = await _dbContext.SaveChangesAsync();
 
-            if (result != matches.Count) throw new NotFoundException("Error.");
+            //if (result != matches.Count) throw new NotFoundException("Error.");
         }    
     }
 }
