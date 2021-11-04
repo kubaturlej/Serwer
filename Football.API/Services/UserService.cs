@@ -21,7 +21,9 @@ namespace Football.API.Services
         public void RegisterUser(RegisterDto dto);
         public UserDto LoginUser(LoginDto dto);
         public void DeleteUser(int id);
-        
+        public UserDto GetUser(int id);
+
+
     }
     public class UserService : IUserService
     {
@@ -67,6 +69,39 @@ namespace Football.API.Services
                 throw new BadRequestException("Invalid user name or password");
             }
 
+            return MakeUser(user);
+               
+        }
+
+        public void RegisterUser(RegisterDto dto)
+        {
+            var newUser = new User
+            {
+                Email = dto.Email,
+                NickName = dto.Nickname,
+                DateOfBirth = dto.DateOfBirth,
+                Nationality = dto.Nationality,
+                RoleId = dto.RoleId
+            };
+
+            var hashedPassword = _passwordHasher.HashPassword(newUser, dto.Password);
+            newUser.PasswordHash = hashedPassword;
+
+            _dbContext.Users.Add(newUser);
+            _dbContext.SaveChanges();
+        }
+
+        public UserDto GetUser(int id)
+        {
+            var user = _dbContext.Users
+                .Include(u => u.Role)
+                .FirstOrDefault(u => u.Id == id);
+
+            return MakeUser(user);
+        }
+
+        private UserDto MakeUser(User user)
+        {
             var claims = new List<Claim>()
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
@@ -94,25 +129,6 @@ namespace Football.API.Services
                 Token = tokenHandler.WriteToken(token),
                 NickName = user.NickName
             };
-               
-        }
-
-        public void RegisterUser(RegisterDto dto)
-        {
-            var newUser = new User
-            {
-                Email = dto.Email,
-                NickName = dto.Nickname,
-                DateOfBirth = dto.DateOfBirth,
-                Nationality = dto.Nationality,
-                RoleId = dto.RoleId
-            };
-
-            var hashedPassword = _passwordHasher.HashPassword(newUser, dto.Password);
-            newUser.PasswordHash = hashedPassword;
-
-            _dbContext.Users.Add(newUser);
-            _dbContext.SaveChanges();
         }
     }
 }

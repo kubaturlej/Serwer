@@ -2,10 +2,11 @@
 using Football.API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Football.API.Controllers
 {
-    [AllowAnonymous]
+
     [ApiController]
     [Route("api/[controller]")]
     public class UserController : ControllerBase
@@ -17,6 +18,7 @@ namespace Football.API.Controllers
             _userService = userService;
         }
 
+        [AllowAnonymous]
         [HttpPost("register")]
         public ActionResult RegisterUser(RegisterDto dto)
         {
@@ -25,18 +27,28 @@ namespace Football.API.Controllers
             return Ok();
         }
 
+        [AllowAnonymous]
         [HttpPost("login")]
-        public ActionResult Login(LoginDto dto)
+        public ActionResult<UserDto> Login(LoginDto dto)
         {
             var user = _userService.LoginUser(dto);
             return Ok(user);
         }
 
+        [Authorize]
         [HttpPost("{id}/delete")]
         public ActionResult DeleteUser(int id)
         {
             _userService.DeleteUser(id);
             return Ok();
+        }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult<UserDto> GetUserAfterClientReload()
+        {
+            var user = _userService.GetUser(int.Parse(User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value));
+            return Ok(user);
         }
     }
 }
