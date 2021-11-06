@@ -30,6 +30,16 @@ namespace Football.API.DTOs.Validators
                         context.AddFailure("Email", "That email is taken");
                     }
                 });
+
+            RuleFor(x => x.Nickname)
+                .Custom((value, context) =>
+                {
+                    var emailInUse = dbContext.Users.Any(u => u.NickName == value);
+                    if (emailInUse)
+                    {
+                        context.AddFailure("Nickname", "That nickname is taken");
+                    }
+                });
         }
     }
 }

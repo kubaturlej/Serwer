@@ -20,11 +20,11 @@ namespace Football.API.Controllers
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public ActionResult RegisterUser(RegisterDto dto)
+        public ActionResult<UserDto> RegisterUser(RegisterDto dto)
         {
-            _userService.RegisterUser(dto);
+            var user = _userService.RegisterUser(dto);
 
-            return Ok();
+            return Ok(user);
         }
 
         [AllowAnonymous]

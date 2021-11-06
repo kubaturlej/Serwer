@@ -18,7 +18,7 @@ namespace Football.API.Services
 {
     public interface IUserService
     {
-        public void RegisterUser(RegisterDto dto);
+        public UserDto RegisterUser(RegisterDto dto);
         public UserDto LoginUser(LoginDto dto);
         public void DeleteUser(int id);
         public UserDto GetUser(int id);
@@ -73,7 +73,7 @@ namespace Football.API.Services
                
         }
 
-        public void RegisterUser(RegisterDto dto)
+        public UserDto RegisterUser(RegisterDto dto)
         {
             var newUser = new User
             {
@@ -87,8 +87,14 @@ namespace Football.API.Services
             var hashedPassword = _passwordHasher.HashPassword(newUser, dto.Password);
             newUser.PasswordHash = hashedPassword;
 
-            _dbContext.Users.Add(newUser);
+            var user = _dbContext.Users.Add(newUser);
             _dbContext.SaveChanges();
+
+            var result = _dbContext.Users
+                .Include(u => u.Role)
+                .FirstOrDefault(u => u.Id == user.Entity.Id);
+
+            return MakeUser(result);
         }
 
         public UserDto GetUser(int id)
