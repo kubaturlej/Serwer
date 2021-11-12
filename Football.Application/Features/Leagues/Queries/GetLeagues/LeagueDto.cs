@@ -20,6 +20,8 @@ namespace Football.Application.Features.Leagues.Queries.GetLeagues
         public string Nationality { get; set; }
         public ICollection<MatchDto> Matches { get; set; }
         public ICollection<PlayerDto> Scorers { get; set; }
+        public ICollection<TeamDto> Teams { get; set; }
+        public ICollection<RoundDto> Rounds { get; set; }
 
     }
 }

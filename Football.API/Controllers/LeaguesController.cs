@@ -1,6 +1,7 @@
 ﻿using Football.Application.Features.Leagues.Commands;
 using Football.Application.Features.Leagues.Queries.GetLeagues;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,7 +12,7 @@ namespace Football.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<LeagueDto>>> GetLeagues()
         {
-            var result = await Mediator.Send(new GetLeagues.Query());
+            var result = await Mediator.Send(new GetLeagues.Query { Date = DateTime.Now.ToString("dd'/'MM'/'yyyy") });
             return Ok(result);
         }
 
@@ -26,6 +27,13 @@ namespace Football.API.Controllers
         public async Task<ActionResult<IEnumerable<RoundDto>>> GetScheduleForLeague(int leagueId)
         {
             var result = await Mediator.Send(new GetScheduleByLeague.Query { Id = leagueId });
+            return Ok(result);
+        }
+
+        [HttpGet("schedule/date")]
+        public async Task<ActionResult<IEnumerable<RoundDto>>> GetScheduleForLeagues([FromHeader] string dateTime)
+        {
+            var result = await Mediator.Send(new GetLeagues.Query { Date = dateTime });
             return Ok(result);
         }
 

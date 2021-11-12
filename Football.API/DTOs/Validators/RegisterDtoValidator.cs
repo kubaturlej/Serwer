@@ -34,8 +34,8 @@ namespace Football.API.DTOs.Validators
             RuleFor(x => x.Nickname)
                 .Custom((value, context) =>
                 {
-                    var emailInUse = dbContext.Users.Any(u => u.NickName == value);
-                    if (emailInUse)
+                    var nicknameInUse = dbContext.Users.Any(u => u.NickName == value);
+                    if (nicknameInUse)
                     {
                         context.AddFailure("Nickname", "That nickname is taken");
                     }

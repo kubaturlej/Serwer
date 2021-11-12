@@ -35,8 +35,9 @@ namespace Football.Infrastructure.Repositories
 
         public async Task<League> GetLeagueById(int id)
         {
-            var league =  await _dbContext.Leagues
-                .FindAsync(id);
+            var league = await _dbContext.Leagues
+                .Include(l => l.Teams)
+                .FirstOrDefaultAsync(l => l.Id == id);
 
             if (league == null) throw new NotFoundException("League not found.");
 
@@ -57,6 +58,9 @@ namespace Football.Infrastructure.Repositories
 
         public async Task<IReadOnlyList<Match>> GetScheduleByDate(int id, string date)
         {
+
+            var tokens = date.Split('/');
+            if (tokens[0].Length == 1) date = $"0{date}"; 
             var matches = await _dbContext.Matches
                 .Where(m => m.Round.League.Id == id)
                 .Where(m => m.Date == date)
