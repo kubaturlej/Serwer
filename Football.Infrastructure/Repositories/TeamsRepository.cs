@@ -23,7 +23,8 @@ namespace Football.Infrastructure.Repositories
         public async Task<Team> GetTeam(int id)
         {    
             var team =  await _dbContext.Teams
-                .FindAsync(id);
+                .Include(t => t.Players)
+                .FirstOrDefaultAsync(t => t.Id == id);
 
             if (team == null) throw new NotFoundException("Team not found.");
 
@@ -39,6 +40,17 @@ namespace Football.Infrastructure.Repositories
             if (teams.Count == 0) throw new NotFoundException("Teams not found.");
 
             return teams;
+        }
+
+        public async Task<IReadOnlyList<Match>> GetTeamSchedule(string name)
+        {
+            var matches = await _dbContext.Matches
+                .Where(m => m.FirstTeam == name || m.SecondTeam == name)
+                .ToListAsync();
+
+            if (matches.Count == 0) throw new NotFoundException("Matches not found.");
+
+            return matches;
         }
 
         public async Task UpdateTeamsInfo(List<Team> teams)
