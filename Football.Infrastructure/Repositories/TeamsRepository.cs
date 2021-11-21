@@ -1,6 +1,7 @@
 ﻿using Football.Application.Contracts.Persistence;
 using Football.Domain.Entities;
 using Football.Infrastructure.Exception;
+using Football.Infrastructure.Exceptions;
 using Football.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -40,6 +41,18 @@ namespace Football.Infrastructure.Repositories
             if (teams.Count == 0) throw new NotFoundException("Teams not found.");
 
             return teams;
+        }
+
+        public async Task<IReadOnlyList<Team>> GetTeamsByName(string name)
+        {
+            var teams = await _dbContext.Teams.ToListAsync();
+            var result = teams
+                .Where(t => string.Equals(name, t.TeamName, StringComparison.OrdinalIgnoreCase) || t.TeamName.Contains(name, StringComparison.OrdinalIgnoreCase)).ToList();
+              
+              
+            if (result.Count == 0) throw new NoResultsException("Teams not found.");
+
+            return result;
         }
 
         public async Task<IReadOnlyList<Match>> GetTeamSchedule(string name)

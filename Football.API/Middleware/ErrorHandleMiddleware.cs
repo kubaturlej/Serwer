@@ -1,4 +1,5 @@
 ﻿using Football.Infrastructure.Exception;
+using Football.Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
@@ -23,6 +24,11 @@ namespace Football.API.Middleware
                 await next.Invoke(context);
             }
 
+            catch (NoResultsException ex)
+            {
+                context.Response.StatusCode = 204;
+                await context.Response.WriteAsync(ex.Message);
+            }
             catch (NotFoundException ex)
             {
                 context.Response.StatusCode = 404;

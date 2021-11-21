@@ -24,8 +24,15 @@ namespace Football.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet()]
+        public async Task<ActionResult<TeamDto>> GetTeamByName([FromHeader] string teamName)
+        {
+           var result = await Mediator.Send(new GetTeamByName.Query() { Name = teamName });
+            return Ok(result);
+        }
+
         [HttpGet("schedule")]
-        public async Task<ActionResult<MatchDto>> GetTeamSchedule([FromHeader]string teamName)
+        public async Task<ActionResult<MatchDto>> GetTeamSchedule([FromHeader] string teamName)
         {
             var result = await Mediator.Send(new GetTeamSchedule.Query() { Name = teamName });
             return Ok(result);
