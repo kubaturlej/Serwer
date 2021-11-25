@@ -66,6 +66,41 @@ namespace Football.Infrastructure.Repositories
             return matches;
         }
 
+        public async Task<IReadOnlyList<Team>> GetFavoritesTeams(int userId)
+        {
+            var favorites = await _dbContext.Favorites
+                .Where(f => f.UserId == userId)
+                .ToListAsync();
+
+            var favoriteTeams = new List<Team>();
+
+            foreach (var item in favorites)
+            {
+                favoriteTeams.Add(_dbContext.Teams.Include(t => t.Players).FirstOrDefault(t => t.Id == item.TeamId));
+            }
+
+            return favoriteTeams;
+        }
+
+        public async Task HandleFavoriteTeam(int userId, int teamId)
+        {
+            var result = await _dbContext.Favorites
+                .FirstOrDefaultAsync(f => f.UserId == userId && f.TeamId == teamId);
+
+            if (result == null)
+            {
+                _dbContext.Favorites
+                    .Add(new Favorite { UserId = userId, TeamId = teamId });
+            } 
+            else
+            {
+                _dbContext.Favorites
+                    .Remove(result);
+            }
+
+            await _dbContext.SaveChangesAsync();
+        }
+
         public async Task UpdateTeamsInfo(List<Team> teams)
         {
             IQueryable<Team> toUpdate = _dbContext.Teams;

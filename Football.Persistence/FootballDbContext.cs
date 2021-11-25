@@ -17,5 +17,6 @@ namespace Football.Persistence
         public DbSet<Match> Matches { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Favorite> Favorites { get; set; }
     }
 }

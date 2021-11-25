@@ -4,6 +4,7 @@ using Football.Application.Features.Teams.Commands;
 using Football.Application.Features.Teams.Queries.GetTeams;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Football.API.Controllers
@@ -38,6 +39,24 @@ namespace Football.API.Controllers
             return Ok(result);
         }
 
+
+        [HttpPost("favorite")]
+        public async Task<ActionResult<MatchDto>> HandleFavoriteTeam([FromHeader] string teamId)
+        {
+            var userID = int.Parse(User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            var teamID = int.Parse(teamId);
+            var result = await Mediator.Send(new HandleFavoriteTeam.Command { UserId = userID, TeamId = teamID });
+            return Ok(result);
+        }
+
+
+        [HttpGet("favorite")]
+        public async Task<ActionResult<MatchDto>> GetFavoriteTeams()
+        {
+            var userID = int.Parse(User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            var result = await Mediator.Send(new GetFavoritesTeams.Query { UserId = userID });
+            return Ok(result);
+        }
 
         //[Authorize(Roles = "Admin")]
         [HttpPatch("teams")]

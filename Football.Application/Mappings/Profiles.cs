@@ -2,6 +2,7 @@
 using Football.Application.Features.Leagues.Queries.GetLeagues;
 using Football.Application.Features.Leagues.Queries.GetPlayers;
 using Football.Application.Features.Leagues.Queries.GetTeams;
+using Football.Application.Features.Teams.Queries.GetTeams;
 
 namespace Football.Application.Mapping
 {
@@ -21,7 +22,6 @@ namespace Football.Application.Mapping
             CreateMap<Domain.Entities.Team, TeamDto>();
             CreateMap<Domain.Entities.Round, RoundDto>();
             CreateMap<Domain.Entities.Match, MatchDto>();
-    
         }
     }
 }
