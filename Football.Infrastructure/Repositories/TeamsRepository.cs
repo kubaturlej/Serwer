@@ -57,13 +57,55 @@ namespace Football.Infrastructure.Repositories
 
         public async Task<IReadOnlyList<Match>> GetTeamSchedule(string name)
         {
-            var matches = await _dbContext.Matches
-                .Where(m => m.FirstTeam == name || m.SecondTeam == name)
-                .ToListAsync();
+            var tokens = name.Split(' ');
+            var matches = new List<Match>();
+            var newTokens = new List<string>();
+            int start = 0, end = tokens.Length;
+
+            string tryName = default(string);
+            int counter = 0;
+            do
+            {
+                if (counter % 2 == 0)
+                {
+                    for (int i = 0; i < end; i++)
+                    {
+                        newTokens.Add(tokens[i]);
+                    }
+                    end--;
+                }
+                else
+                {
+                    for (int i = start; i < tokens.Length; i++)
+                    {
+                        newTokens.Add(tokens[i]);
+                    }
+                    start++;
+                }
+
+                counter++;
+
+                tryName = string.Join(' ', newTokens);
+                matches = await _dbContext.Matches
+                    .Where(m => m.FirstTeam == tryName || m.SecondTeam == tryName)
+                    .ToListAsync();
+
+                newTokens.Clear();
+            } 
+            while (matches.Count == 0);
+
+
+            matches.Sort((x, y) => DateTime.Parse(x.Date).CompareTo(DateTime.Parse(y.Date)));
 
             if (matches.Count == 0) throw new NotFoundException("Matches not found.");
 
             return matches;
+        }
+        public async Task<IReadOnlyList<Match>> GetTeamMatchForSpecificDay(string teamName, string date)
+        {
+            var matches = await GetTeamSchedule(teamName);
+
+            return matches.Where(m => m.Date == date).ToList();
         }
 
         public async Task<IReadOnlyList<Team>> GetFavoritesTeams(int userId)

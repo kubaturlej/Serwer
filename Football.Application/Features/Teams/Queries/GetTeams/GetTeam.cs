@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Football.Application.Contracts.Persistence;
+using Football.Application.Features.Leagues.Queries.GetLeagues;
 using MediatR;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -27,8 +29,10 @@ namespace Football.Application.Features.Leagues.Queries.GetTeams
             public async Task<TeamDto> Handle(Query request, CancellationToken cancellationToken)
             {
                 var team = await _repository.GetTeam(request.Id);
-
-                return _mapper.Map<TeamDto>(team);
+                var matches = await _repository.GetTeamSchedule(team.TeamName);
+                var result = _mapper.Map<TeamDto>(team);
+                result.Schedule = _mapper.Map<List<MatchDto>>(matches);
+                return result;
             }
         }
     }

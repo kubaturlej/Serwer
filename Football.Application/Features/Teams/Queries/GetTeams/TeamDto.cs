@@ -1,4 +1,5 @@
-﻿using Football.Application.Features.Leagues.Queries.GetPlayers;
+﻿using Football.Application.Features.Leagues.Queries.GetLeagues;
+using Football.Application.Features.Leagues.Queries.GetPlayers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,5 +30,6 @@ namespace Football.Application.Features.Leagues.Queries.GetTeams
         public string AvgGoalsPerMacth { get; set; }
         public string Logo { get; set; }
         public ICollection<PlayerDto> Players { get; set; }
+        public ICollection<MatchDto> Schedule { get; set; }
     }
 }

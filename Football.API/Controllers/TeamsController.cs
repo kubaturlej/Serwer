@@ -40,6 +40,14 @@ namespace Football.API.Controllers
         }
 
 
+        [HttpGet("match")]
+        public async Task<ActionResult<MatchDto>> GetTeamMatchForSpecificDay([FromHeader] string teamName, [FromHeader] string dateTime)
+        {
+            var result = await Mediator.Send(new GetTeamMatchForSpecificDay.Query() { Name = teamName, Date = dateTime });
+            return Ok(result);
+        }
+
+
         [HttpPost("favorite")]
         public async Task<ActionResult<MatchDto>> HandleFavoriteTeam([FromHeader] string teamId)
         {
@@ -50,7 +58,7 @@ namespace Football.API.Controllers
         }
 
 
-        [HttpGet("favorite")]
+        [HttpGet("favorite")] 
         public async Task<ActionResult<MatchDto>> GetFavoriteTeams()
         {
             var userID = int.Parse(User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value);

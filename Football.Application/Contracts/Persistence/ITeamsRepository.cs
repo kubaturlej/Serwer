@@ -15,6 +15,7 @@ namespace Football.Application.Contracts.Persistence
         public Task<IReadOnlyList<Team>> GetTeamsByName(string name);
         public Task HandleFavoriteTeam(int userId, int teamId);
         public Task<IReadOnlyList<Team>> GetFavoritesTeams(int userId);
+        public Task<IReadOnlyList<Match>> GetTeamMatchForSpecificDay(string teamName, string date);
         public Task UpdateTeamsInfo(List<Team> teams);
     }
 }
